@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
 public class Shift {
@@ -11,6 +13,6 @@ public class Shift {
     @Id
     int ShiftID;
     int EmployeeID;
-    String ShiftDate;
-    String ShiftTime;
+    Date ShiftDate;
+    Date ShiftTime;
 }
