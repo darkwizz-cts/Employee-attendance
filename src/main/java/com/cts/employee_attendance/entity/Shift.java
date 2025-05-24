@@ -1,9 +1,9 @@
 package com.cts.employee_attendance.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -11,8 +11,11 @@ import java.util.Date;
 public class Shift {
 
     @Id
-    int ShiftID;
-    int EmployeeID;
-    Date ShiftDate;
-    Date ShiftTime;
+    private int ShiftID;
+    private LocalDate ShiftDate;
+    private LocalDate ShiftTime;
+
+    @OneToOne
+    @JoinColumn(name = "employeeId")
+    private Employee employee;
 }
