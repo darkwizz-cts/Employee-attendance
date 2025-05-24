@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -12,6 +13,6 @@ import java.time.LocalDate;
 public class ShiftDTO {
     private int ShiftID;
     private LocalDate ShiftDate;
-    private LocalDate ShiftTime;
+    private LocalTime ShiftTime;
     private int employeeId;
 }

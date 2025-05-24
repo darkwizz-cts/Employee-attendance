@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class Shift {
     @Id
     private int ShiftID;
     private LocalDate ShiftDate;
-    private LocalDate ShiftTime;
+    private LocalTime ShiftTime;
 
     @OneToOne
     @JoinColumn(name = "employeeId")
