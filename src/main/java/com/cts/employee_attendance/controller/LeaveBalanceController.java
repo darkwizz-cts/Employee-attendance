@@ -32,9 +32,9 @@ public class LeaveBalanceController {
         return new ResponseEntity<>(leaveBalance, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<LeaveBalanceDTO>> getLeaveBalancesByEmployeeId(@PathVariable int id) {
-        List<LeaveBalanceDTO> leaveBalances = leaveBalanceService.getLeaveBalancesByEmployeeId(id);
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<List<LeaveBalanceDTO>> getLeaveBalancesByEmployeeId(@PathVariable int employeeId) {
+        List<LeaveBalanceDTO> leaveBalances = leaveBalanceService.getLeaveBalancesByEmployeeId(employeeId);
         return new ResponseEntity<>(leaveBalances, HttpStatus.OK);
     }
 
