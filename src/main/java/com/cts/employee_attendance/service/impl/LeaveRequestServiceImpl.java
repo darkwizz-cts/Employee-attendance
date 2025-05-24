@@ -3,6 +3,7 @@ package com.cts.employee_attendance.service.impl;
 import com.cts.employee_attendance.dto.LeaveRequestDTO;
 import com.cts.employee_attendance.entity.LeaveRequest;
 import com.cts.employee_attendance.entity.Employee;
+import com.cts.employee_attendance.exception.ResourceNotFoundException;
 import com.cts.employee_attendance.repository.LeaveRequestRepository;
 import com.cts.employee_attendance.repository.EmployeeRepository;
 import com.cts.employee_attendance.service.LeaveRequestService;
@@ -39,7 +40,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     @Override
     public LeaveRequestDTO getLeaveRequestById(int id) {
         LeaveRequest leaveRequest = leaveRequestRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Leave request not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Leave request not found with id: " + id));
         return convertToDTO(leaveRequest);
     }
 
@@ -61,7 +62,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     @Override
     public LeaveRequestDTO updateLeaveRequest(int id, LeaveRequestDTO leaveRequestDTO) {
         if (!leaveRequestRepository.existsById(id)) {
-            throw new RuntimeException("Leave request not found with id: " + id);
+            throw new ResourceNotFoundException("Leave request not found with id: " + id);
         }
         LeaveRequest leaveRequest = convertToEntity(leaveRequestDTO);
         leaveRequest.setLeaveId(id);
@@ -72,7 +73,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     @Override
     public void deleteLeaveRequest(int id) {
         if (!leaveRequestRepository.existsById(id)) {
-            throw new RuntimeException("Leave request not found with id: " + id);
+            throw new ResourceNotFoundException("Leave request not found with id: " + id);
         }
         leaveRequestRepository.deleteById(id);
     }
@@ -88,7 +89,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         
         if (leaveRequestDTO.getEmployeeId() > 0) {
             Employee employee = employeeRepository.findById(leaveRequestDTO.getEmployeeId())
-                    .orElseThrow(() -> new RuntimeException("Employee not found with id: " + leaveRequestDTO.getEmployeeId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + leaveRequestDTO.getEmployeeId()));
             leaveRequest.setEmployee(employee);
         }
         

@@ -3,6 +3,7 @@ package com.cts.employee_attendance.service.impl;
 import com.cts.employee_attendance.dto.ShiftDTO;
 import com.cts.employee_attendance.entity.Employee;
 import com.cts.employee_attendance.entity.Shift;
+import com.cts.employee_attendance.exception.ResourceNotFoundException;
 import com.cts.employee_attendance.repository.EmployeeRepository;
 import com.cts.employee_attendance.repository.ShiftRepository;
 import com.cts.employee_attendance.service.ShiftService;
@@ -40,7 +41,7 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public ShiftDTO getShiftById(int id) {
         Shift shift = shiftRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Shift not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Shift not found with id: " + id));
         return convertToDTO(shift);
     }
 
@@ -48,7 +49,7 @@ public class ShiftServiceImpl implements ShiftService {
     public ShiftDTO getShiftByEmployeeId(int employeeId) {
         List<Shift> shifts = shiftRepository.findByEmployeeEmployeeId(employeeId);
         if (shifts.isEmpty()) {
-            throw new RuntimeException("No shift found for employee with id: " + employeeId);
+            throw new ResourceNotFoundException("No shift found for employee with id: " + employeeId);
         }
         return convertToDTO(shifts.get(0));
     }
@@ -63,7 +64,7 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public ShiftDTO updateShift(int id, ShiftDTO shiftDTO) {
         if (!shiftRepository.existsById(id)) {
-            throw new RuntimeException("Shift not found with id: " + id);
+            throw new ResourceNotFoundException("Shift not found with id: " + id);
         }
         Shift shift = convertToEntity(shiftDTO);
         shift.setShiftID(id);
@@ -74,7 +75,7 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public void deleteShift(int id) {
         if (!shiftRepository.existsById(id)) {
-            throw new RuntimeException("Shift not found with id: " + id);
+            throw new ResourceNotFoundException("Shift not found with id: " + id);
         }
         shiftRepository.deleteById(id);
     }
@@ -93,7 +94,7 @@ public class ShiftServiceImpl implements ShiftService {
         // Set the employee reference
         if (shiftDTO.getEmployeeId() > 0) {
             Employee employee = employeeRepository.findById(shiftDTO.getEmployeeId())
-                    .orElseThrow(() -> new RuntimeException("Employee not found with id: " + shiftDTO.getEmployeeId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + shiftDTO.getEmployeeId()));
             shift.setEmployee(employee);
         }
         
