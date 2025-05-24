@@ -1,9 +1,6 @@
 package com.cts.employee_attendance.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AttendanceReport {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int reportID;
     int dateRange;
     int totalAttendance;
