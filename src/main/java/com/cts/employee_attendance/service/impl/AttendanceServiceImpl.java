@@ -3,6 +3,7 @@ package com.cts.employee_attendance.service.impl;
 import com.cts.employee_attendance.dto.AttendanceDTO;
 import com.cts.employee_attendance.entity.Attendance;
 import com.cts.employee_attendance.entity.Employee;
+import com.cts.employee_attendance.exception.ResourceNotFoundException;
 import com.cts.employee_attendance.repository.AttendanceRepository;
 import com.cts.employee_attendance.repository.EmployeeRepository;
 import com.cts.employee_attendance.service.AttendanceService;
@@ -39,7 +40,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public AttendanceDTO getAttendanceById(int id) {
         Attendance attendance = attendanceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Attendance not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Attendance not found with id: " + id));
         return convertToDTO(attendance);
     }
 
@@ -61,7 +62,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public AttendanceDTO updateAttendance(int id, AttendanceDTO attendanceDTO) {
         if (!attendanceRepository.existsById(id)) {
-            throw new RuntimeException("Attendance not found with id: " + id);
+            throw new ResourceNotFoundException("Attendance not found with id: " + id);
         }
         Attendance attendance = convertToEntity(attendanceDTO);
         attendance.setAttendanceId(id);
@@ -72,7 +73,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public void deleteAttendance(int id) {
         if (!attendanceRepository.existsById(id)) {
-            throw new RuntimeException("Attendance not found with id: " + id);
+            throw new ResourceNotFoundException("Attendance not found with id: " + id);
         }
         attendanceRepository.deleteById(id);
     }
@@ -89,7 +90,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         // Set the employee reference
         if (attendanceDTO.getEmployeeId() > 0) {
             Employee employee = employeeRepository.findById(attendanceDTO.getEmployeeId())
-                    .orElseThrow(() -> new RuntimeException("Employee not found with id: " + attendanceDTO.getEmployeeId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + attendanceDTO.getEmployeeId()));
             attendance.setEmployee(employee);
         }
         

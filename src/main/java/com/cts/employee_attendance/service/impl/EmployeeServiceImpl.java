@@ -2,6 +2,7 @@ package com.cts.employee_attendance.service.impl;
 
 import com.cts.employee_attendance.dto.EmployeeDTO;
 import com.cts.employee_attendance.entity.Employee;
+import com.cts.employee_attendance.exception.ResourceNotFoundException;
 import com.cts.employee_attendance.repository.EmployeeRepository;
 import com.cts.employee_attendance.service.EmployeeService;
 import org.modelmapper.ModelMapper;
@@ -33,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO getEmployeeById(int id) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
         return modelMapper.map(employee, EmployeeDTO.class);
     }
 
@@ -47,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO updateEmployee(int id, EmployeeDTO employeeDTO) {
         if (!employeeRepository.existsById(id)) {
-            throw new RuntimeException("Employee not found with id: " + id);
+            throw new ResourceNotFoundException("Employee not found with id: " + id);
         }
         Employee employee = modelMapper.map(employeeDTO, Employee.class);
         employee.setEmployeeId(id);
@@ -58,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployee(int id) {
         if (!employeeRepository.existsById(id)) {
-            throw new RuntimeException("Employee not found with id: " + id);
+            throw new ResourceNotFoundException("Employee not found with id: " + id);
         }
         employeeRepository.deleteById(id);
     }

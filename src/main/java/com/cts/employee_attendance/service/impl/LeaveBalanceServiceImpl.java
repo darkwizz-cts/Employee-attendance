@@ -3,6 +3,7 @@ package com.cts.employee_attendance.service.impl;
 import com.cts.employee_attendance.dto.LeaveBalanceDTO;
 import com.cts.employee_attendance.entity.Employee;
 import com.cts.employee_attendance.entity.LeaveBalance;
+import com.cts.employee_attendance.exception.ResourceNotFoundException;
 import com.cts.employee_attendance.repository.EmployeeRepository;
 import com.cts.employee_attendance.repository.LeaveBalanceRepository;
 import com.cts.employee_attendance.service.LeaveBalanceService;
@@ -40,7 +41,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
     @Override
     public LeaveBalanceDTO getLeaveBalanceById(int id) {
         LeaveBalance leaveBalance = leaveBalanceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Leave balance not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Leave balance not found with id: " + id));
         return convertToDTO(leaveBalance);
     }
 
@@ -62,7 +63,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
     @Override
     public LeaveBalanceDTO updateLeaveBalance(int id, LeaveBalanceDTO leaveBalanceDTO) {
         if (!leaveBalanceRepository.existsById(id)) {
-            throw new RuntimeException("Leave balance not found with id: " + id);
+            throw new ResourceNotFoundException("Leave balance not found with id: " + id);
         }
         
         LeaveBalance leaveBalance = convertToEntity(leaveBalanceDTO);
@@ -74,7 +75,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
     @Override
     public void deleteLeaveBalance(int id) {
         if (!leaveBalanceRepository.existsById(id)) {
-            throw new RuntimeException("Leave balance not found with id: " + id);
+            throw new ResourceNotFoundException("Leave balance not found with id: " + id);
         }
         leaveBalanceRepository.deleteById(id);
     }
@@ -93,7 +94,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
         // Set the employee reference
         if (leaveBalanceDTO.getEmployeeId() > 0) {
             Employee employee = employeeRepository.findById(leaveBalanceDTO.getEmployeeId())
-                    .orElseThrow(() -> new RuntimeException("Employee not found with id: " + leaveBalanceDTO.getEmployeeId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + leaveBalanceDTO.getEmployeeId()));
             leaveBalance.setEmployee(employee);
         }
         

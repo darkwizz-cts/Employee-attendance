@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/shifts")
-public class ShiftController {
+public class    ShiftController {
 
     private final ShiftService shiftService;
 
